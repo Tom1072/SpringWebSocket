@@ -1,33 +1,26 @@
-import { useState } from 'react';
-import './App.css';
-import Header from './components/Header';
-import ConnectForm from './components/ConnectForm';
-import MessageForm from './components/MessageForm';
-import Messages, { Message } from './components/Messages'
+import "./App.css";
+import Header from "./components/Header";
+import ConnectForm from "./components/ConnectForm";
+import MessageForm from "./components/MessageForm";
+import Messages from "./components/Messages";
+import { useConnected } from "./Store";
 
 const App = () => {
-  const [connected, setConnected] = useState(false);
-  const [messages, setMessages] = useState([]);
-  const [name, setName] = useState("");
-
-  const addMessage = (name, message) => {
-    // setMessages([...messages, {name, message}])
-    setMessages((current) => [...current, {name: name, message: message}])
-  }
+  const connected = useConnected();
 
   return (
     <div className="App">
       <Header />
       {connected ? (
         <>
-          <MessageForm name={name}/>
-          <Messages messages={messages}/>
+          <MessageForm />
+          <Messages />
         </>
       ) : (
-        <ConnectForm setConnected={setConnected} handleNewMessage={addMessage} setGlobalName={setName} />
+        <ConnectForm />
       )}
     </div>
   );
-}
+};
 
 export default App;

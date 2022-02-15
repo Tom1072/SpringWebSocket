@@ -1,21 +1,29 @@
 import React, { useState } from "react";
-import { connect } from '../ClientSocket'
+import { connect } from "../ClientSocket";
 
+import {
+  useName,
+  useSetConnected,
+  useSetName,
+  useAddNewMessage,
+} from "../Store";
 
-const ConnectForm = ({ setConnected, handleNewMessage, setGlobalName }) => {
-  const [name, setName] = useState("");
+const ConnectForm = () => {
+  const name = useName();
+  const addNewMessage = useAddNewMessage();
+  const setConnected = useSetConnected();
+
+  const setName = useSetName();
 
   // Preprocess before making connection request
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name) {
-      alert("Please enter your name")
-      return
+      alert("Please enter your name");
+      return;
     }
-    connect(handleNewMessage);
-    setConnected(true);
-    setGlobalName(name);
-  }
+    connect(setConnected, addNewMessage);
+  };
 
   return (
     <form className="m-3" onSubmit={handleSubmit}>
