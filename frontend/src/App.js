@@ -1,23 +1,31 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import Header from './components/Header';
+import ConnectForm from './components/ConnectForm';
+import MessageForm from './components/MessageForm';
+import Messages, { Message } from './components/Messages'
 
-function App() {
+const App = () => {
+  const [connected, setConnected] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [name, setName] = useState("");
+
+  const addMessage = (name, message) => {
+    // setMessages([...messages, {name, message}])
+    setMessages((current) => [...current, {name: name, message: message}])
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      {connected ? (
+        <>
+          <MessageForm name={name}/>
+          <Messages messages={messages}/>
+        </>
+      ) : (
+        <ConnectForm setConnected={setConnected} handleNewMessage={addMessage} setGlobalName={setName} />
+      )}
     </div>
   );
 }
